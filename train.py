@@ -2,15 +2,15 @@ import tensorflow as tf
 from tensorflow import keras
 
 batch_size = 8
-image_height = 248
-image_width = 248
+image_height = 160
+image_width = 160
 color_mode="grayscale"
 
 # Acquire training data set. I realise pathlib is overkill here.
 data_dir = "dice_data"
 
 train_ds = keras.utils.image_dataset_from_directory(
-    data_dir + "/training"
+    data_dir + "/training",
     seed=123,
     image_size=(image_height, image_width),
     batch_size=batch_size,
@@ -39,11 +39,11 @@ num_classes = 6
 
 model = keras.Sequential([
   keras.layers.Rescaling(1./255),
-  keras.layers.Conv2D(128, 3, activation='relu'),
+  keras.layers.Conv2D(16, 3, activation='relu'),
   keras.layers.MaxPooling2D(),
-  keras.layers.Conv2D(128, 3, activation='relu'),
+  keras.layers.Conv2D(32, 3, activation='relu'),
   keras.layers.MaxPooling2D(),
-  keras.layers.Conv2D(128, 3, activation='relu'),
+  keras.layers.Conv2D(64, 3, activation='relu'),
   keras.layers.MaxPooling2D(),
   keras.layers.Flatten(),
   keras.layers.Dense(128, activation='relu'),
