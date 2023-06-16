@@ -1,20 +1,20 @@
 import tensorflow as tf
 from tensorflow import keras
-import pathlib
 
 batch_size = 8
 image_height = 248
 image_width = 248
+color_mode="grayscale"
 
 # Acquire training data set. I realise pathlib is overkill here.
-data_dir = pathlib.Path("dice_data")
+data_dir = "dice_data"
 
 train_ds = keras.utils.image_dataset_from_directory(
-    data_dir / pathlib.Path("training"),
+    data_dir + "/training"
     seed=123,
     image_size=(image_height, image_width),
     batch_size=batch_size,
-    color_mode="grayscale"
+    color_mode=color_mode
 )
 
 cl = train_ds.class_names
@@ -22,11 +22,11 @@ cl = train_ds.class_names
 # Acquire validation data set
 
 val_ds = keras.utils.image_dataset_from_directory(
-  data_dir / pathlib.Path("validation"),
+  data_dir + "/validation",
   seed=123,
   image_size=(image_height, image_width),
   batch_size=batch_size,
-  color_mode="grayscale"
+  color_mode=color_mode
 )
 
 # Tune data (don't know what this does)
@@ -64,7 +64,7 @@ with tf.device("/gpu:0"):
     epochs=3
   )
 
-save_dir = pathlib.Path("/mnt/c/Users/Greg/Desktop/Dice_Recognition/model")
+save_dir = "model"
 model.save(save_dir)
 
 print('fin')
