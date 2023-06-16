@@ -33,15 +33,15 @@ for image in predictions:
     print(all_class_names[image.argmax()] + ' | ')
 
 plt.figure(figsize=(10,10))
-for images, labels in myimagedataset.take(1):
-    for i in range(number_predict_imgs):
-        ax = plt.subplot(3, 3, i + 1)
-        if color_mode == "grayscale":
-          plt.imshow(images[i].numpy().astype("uint8"), cmap="gray")
-        else:
-          plt.imshow(images[i].numpy().astype("uint8"))
-        plt.title("Actual class = " + prediction_data_class_names[labels[i]] + "\nPredicted class = " + all_class_names[predictions[i].argmax()])
-        plt.axis("off")
+for images, labels in myimagedataset:
+	for i in range(number_predict_imgs):
+		ax = plt.subplot(3, 3, i + 1)
+		if color_mode == "grayscale":
+			plt.imshow(images[i].numpy().astype("uint8"), cmap="gray")
+		else:
+			plt.imshow(images[i].numpy().astype("uint8"))
+		plt.title("Actual class = " + prediction_data_class_names[labels[i]] + "\nPredicted class = " + all_class_names[predictions[i].argmax()])
+		plt.axis("off")
 plt.show()
 
 print("fin")
