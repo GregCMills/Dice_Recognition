@@ -2,6 +2,10 @@ import tensorflow as tf
 from tensorflow import keras
 # import matplotlib.pyplot as plt
 
+image_height = 160
+image_width = 160
+color_mode="grayscale"
+
 model_dir = "model"
 
 model = keras.models.load_model(model_dir)
@@ -10,8 +14,8 @@ prediction_dir = "prediction"
 
 myimagedataset = tf.keras.utils.image_dataset_from_directory(
   prediction_dir,
-  image_size=(248, 248),
-  color_mode='grayscale'
+  image_size=(image_width, image_height),
+  color_mode=color_mode
 )
 
 predictions = model.predict(myimagedataset)
