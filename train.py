@@ -6,9 +6,8 @@ image_height = 160
 image_width = 160
 color_mode="grayscale"
 
-# Acquire training data set. I realise pathlib is overkill here.
+# Acquire training data set.
 data_dir = "dice_data"
-
 train_ds = keras.utils.image_dataset_from_directory(
     data_dir + "/training",
     seed=123,
@@ -20,7 +19,6 @@ train_ds = keras.utils.image_dataset_from_directory(
 cl = train_ds.class_names
 
 # Acquire validation data set
-
 val_ds = keras.utils.image_dataset_from_directory(
   data_dir + "/validation",
   seed=123,
@@ -29,7 +27,6 @@ val_ds = keras.utils.image_dataset_from_directory(
   color_mode=color_mode
 )
 
-# Tune data (don't know what this does)
 AUTOTUNE = tf.data.AUTOTUNE
 
 train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
