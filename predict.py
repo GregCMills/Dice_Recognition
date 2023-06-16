@@ -1,10 +1,11 @@
 import tensorflow as tf
 from tensorflow import keras
+import image_settings
 # import matplotlib.pyplot as plt
 
-image_height = 160
-image_width = 160
-color_mode="grayscale"
+image_height = image_settings.image_height
+image_width = image_settings.image_width
+color_mode=image_settings.color_mode
 
 model_dir = "model"
 

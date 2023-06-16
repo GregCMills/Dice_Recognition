@@ -1,10 +1,11 @@
 import tensorflow as tf
 from tensorflow import keras
+import image_settings
 
 batch_size = 8
-image_height = 160
-image_width = 160
-color_mode="grayscale"
+image_height = image_settings.image_height
+image_width = image_settings.image_width
+color_mode=image_settings.color_mode
 
 # Acquire training data set.
 data_dir = "dice_data"
