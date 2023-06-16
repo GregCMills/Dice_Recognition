@@ -1,7 +1,7 @@
 import tensorflow as tf
 from tensorflow import keras
 import image_settings
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 image_height = image_settings.image_height
 image_width = image_settings.image_width
@@ -24,22 +24,24 @@ classes = predictions > 0.5
 
 print(predictions)
 
-class_names = ['d10', 'd12', 'd20', 'd4', 'd6', 'd8']
+all_class_names = ['d10', 'd12', 'd20', 'd4', 'd6', 'd8']
+prediction_data_class_names = myimagedataset.class_names
+number_predict_imgs = len(myimagedataset.file_paths)
 
 
 for image in predictions:
-    print(class_names[image.argmax()] + ' | ')
+    print(all_class_names[image.argmax()] + ' | ')
 
-# for i in classes:
-
-
-# plt.figure(figsize=(10,10))
-# for images, labels in myimagedataset.take(1):
-#     for i in range(4):
-#         ax = plt.subplot(3, 3, i + 1)
-#         plt.imshow(images[i].numpy().astype("uint8"))
-#         plt.title(class_names[labels[i]])
-#         plt.axis("off")
-# plt.show()
+plt.figure(figsize=(10,10))
+for images, labels in myimagedataset.take(1):
+    for i in range(number_predict_imgs):
+        ax = plt.subplot(3, 3, i + 1)
+        if color_mode == "grayscale":
+          plt.imshow(images[i].numpy().astype("uint8"), cmap="gray")
+        else:
+          plt.imshow(images[i].numpy().astype("uint8"))
+        plt.title("Actual class = " + prediction_data_class_names[labels[i]] + "\nPredicted class = " + all_class_names[predictions[i].argmax()])
+        plt.axis("off")
+plt.show()
 
 print("fin")

@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow import keras
 import image_settings
 
-batch_size = 8
+batch_size = image_settings.batch_size
 image_height = image_settings.image_height
 image_width = image_settings.image_width
 color_mode=image_settings.color_mode
