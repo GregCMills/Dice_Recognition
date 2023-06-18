@@ -51,15 +51,15 @@ model = keras.Sequential([
 
 model.compile(
   optimizer='adam',
-  loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-  metrics=['accuracy'],
+  loss=keras.losses.SparseCategoricalCrossentropy(from_logits=False),
+  metrics=keras.metrics.SparseCategoricalAccuracy(),
 )
 
 with tf.device("/gpu:0"):
   model.fit(
     train_ds,
     validation_data=val_ds,
-    epochs=3
+    epochs=4
   )
 
 save_dir = "model"
