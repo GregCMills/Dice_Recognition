@@ -3,6 +3,7 @@ from tensorflow import keras
 import image_settings
 import datetime
 import hog
+import numpy as np
 
 def load_datasets(data):
     """
@@ -19,13 +20,18 @@ def load_datasets(data):
     # Retrieve batch size, image height, image width, and color mode from image_settings
     batch_size = image_settings.batch_size
 
-    hog_vectors_train = data[0]
-    labels_train = data[1]
-    hog_vectors_val = data[2]
-    labels_val = data[3]
+    hog_vectors_train = data['training_hog_vectors.npy']
+    labels_train = data['training_labels.npy']
+    hog_vectors_val = data['validation_hog_vectors.npy']
+    labels_val = data['validation_labels.npy']
+
+    # num_samples, num_features = hog_features.shape
+    # reshaped_hog_features = hog_features.reshape(num_samples, int(np.sqrt(num_features)), int(np.sqrt(num_features)))
     
     # Load training dataset
     train_ds = tf.data.Dataset.from_tensor_slices((hog_vectors_train, labels_train))
+    num_samples, num_features = train_ds.shape
+    train_ds = train_ds.reshape(num_samples, int(np.sqrt(num_features)), int(np.sqrt(num_features)))
     train_ds = train_ds.batch(batch_size)
     
     # Load validation dataset
