@@ -1,6 +1,7 @@
 import tensorflow as tf
 from tensorflow import keras
 import image_settings
+import datetime
 
 batch_size = image_settings.batch_size
 image_height = image_settings.image_height
@@ -37,14 +38,13 @@ num_classes = 6
 
 model = keras.Sequential([
   keras.layers.Rescaling(1./255),
-  keras.layers.Conv2D(16, 3, activation='relu'),
-  keras.layers.MaxPooling2D(),
-  keras.layers.Conv2D(32, 3, activation='relu'),
-  keras.layers.MaxPooling2D(),
-  keras.layers.Conv2D(64, 3, activation='relu'),
-  keras.layers.MaxPooling2D(),
+  keras.layers.Conv2D(8, 3, activation='relu', padding='same'),
+  keras.layers.MaxPooling2D(strides=2),
+  keras.layers.Conv2D(64, 3, activation='relu', padding='same'),
+  keras.layers.MaxPooling2D(strides=2),
+  keras.layers.Conv2D(128, 3, activation='relu', padding='same'),
+  keras.layers.MaxPooling2D(strides=2),
   keras.layers.Flatten(),
-  keras.layers.Dense(128, activation='relu'),
   keras.layers.Dense(num_classes),
   keras.layers.Activation('softmax')
 ])
@@ -55,11 +55,15 @@ model.compile(
   metrics=keras.metrics.SparseCategoricalAccuracy(),
 )
 
+log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+
 with tf.device("/gpu:0"):
   model.fit(
     train_ds,
     validation_data=val_ds,
-    epochs=4
+    epochs=5,
+    callbacks=[tensorboard_callback]
   )
 
 save_dir = "model"
